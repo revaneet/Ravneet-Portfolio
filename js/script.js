@@ -18,6 +18,7 @@ window.onload = function(){
         'I\'m Ravneet',
         'I recently completed my Btech in Computer Science',
         'I\'m currently accepting full time jobs.<br> You can contact me at <a href="mailto:ravneetkaur91997@gmail.com">ravneetkaur91997@gmail.com</a> ',
+        '<a href="https://github.com/revaneet">github.com/revaneet</a><br><a href="https://www.linkedin.com/in/revaneetkaur/">linkedin.com/in/revaneetkaur</a><br><a href="https://twitter.com/reva_neet">twitter.com/reva_neet</a>',
         getCurrentTime(),
         'Bye :)'
     ]
