@@ -39,6 +39,7 @@ body{
 
 .message{
     max-width: 100%;
+    height: 100%;
 }
 .bubble.left.cornered {
     border-bottom-left-radius: 0;
@@ -56,13 +57,13 @@ background: rgba(206,206,206,0.50);
     color: #0076FF;
 }
 .bubble .loading{
-    /* position: absolute; */
+    position: absolute;
     /* width: 2.25rem; */
     font-size: 2rem;
     line-height: 1.25rem;
 }
 .bubble .loading b {
-    /* display: inline-block; */
+    display: inline-block;
     color: rgba(0,0,0,.5);
 }
 

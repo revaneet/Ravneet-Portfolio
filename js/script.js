@@ -1,21 +1,21 @@
-window.onload = function(){
+window.onload = function () {
 
     var messagesEle = document.querySelector('.messages');
     var loadingText = '<b>•</b><b>•</b><b>•</b>';
     var msgInd = 0;
+    var typingSpeed = 20;
 
-    function getCurrentTime()
-    {
+    function getCurrentTime() {
         var d = new Date();
         var hours = d.getHours();
         console.log(hours);
-        if(hours >=5 && hours<19) return 'Have a nice day';
-        else if(hours>=19 && hours<22) return 'Have a nice evening';
-        else if(hours>=22 || hours<5) return 'Have a good night';
+        if (hours >= 5 && hours < 19) return 'Have a nice day';
+        else if (hours >= 19 && hours < 22) return 'Have a nice evening';
+        else if (hours >= 22 || hours < 5) return 'Have a good night';
         else return 'Oops';
     }
 
-    var messages =[
+    var messages = [
         'Hi there',
         'I\'m Ravneet',
         'I recently completed my Btech in Computer Science',
@@ -25,8 +25,7 @@ window.onload = function(){
         'Bye :)'
     ]
 
-    function createBubbleElements(message , position)
-    {
+    function createBubbleElements(message, position) {
         var bubbleEle = document.createElement('div');
         var messageEle = document.createElement('span');
         var loadingEle = document.createElement('span');
@@ -42,50 +41,47 @@ window.onload = function(){
 
         messageEle.innerHTML = message;
         loadingEle.innerHTML = loadingText;
-        
+
         bubbleEle.appendChild(loadingEle);
         bubbleEle.appendChild(messageEle);
 
-        bubbleEle.style.opacity = 0 ; 
-        
-        return{
+        bubbleEle.style.opacity = 0;
+
+        return {
             loading: loadingEle,
             bubble: bubbleEle,
             message: messageEle
         }
 
     }
-    function getFontSize()
-    {
+    function getFontSize() {
         return parseInt(getComputedStyle(document.body).getPropertyValue('font-size'));
     }
-    function pxToRem(elePx)
-    {
-        var eleRem = elePx/getFontSize() + 'rem';
+    function pxToRem(elePx) {
+        var eleRem = elePx / getFontSize() + 'rem';
 
         return eleRem;
     }
-    function getDimensions(elements)
-    {
-        var dimensions={
-            loading:{
+    function getDimensions(elements) {
+        var dimensions = {
+            loading: {
                 w: '4rem',
                 h: '2.25rem'
             },
-            bubble:{
-                w: pxToRem(elements.bubble.offsetWidth+4),
+            bubble: {
+                w: pxToRem(elements.bubble.offsetWidth + 4),
                 h: pxToRem(elements.bubble.offsetHeight)
             },
-            message:{
-                w: pxToRem(elements.message.offsetWidth+4),
+            message: {
+                w: pxToRem(elements.message.offsetWidth + 4),
                 h: pxToRem(elements.message.offsetHeight)
             }
         }
         return dimensions;
     }
-    function sendMessage(message,position)
-    {
-        var elements = createBubbleElements(message,position);
+    function sendMessage(message, position) {
+        var loadingDuration = (message.replace(/<(?:.|\n)*?>/gm, '').length * typingSpeed) + 500;
+        var elements = createBubbleElements(message, position);
         messagesEle.appendChild(elements.bubble);
         messagesEle.appendChild(document.createElement('br'));
         var dimensions = getDimensions(elements);
@@ -96,10 +92,9 @@ window.onload = function(){
         elements.message.style.width = dimensions.message.w;
         elements.message.style.height = dimensions.message.h;
         elements.bubble.style.opacity = 1;
-        
+
         var bubbleOffset = elements.bubble.offsetTop + elements.bubble.offsetHeight;
-        if(bubbleOffset > messagesEle.offsetHeight)
-        {
+        if (bubbleOffset > messagesEle.offsetHeight) {
             console.log(bubbleOffset)
             console.log(messagesEle.offsetHeight)
             var scrollMsgs = anime({
@@ -110,14 +105,31 @@ window.onload = function(){
         }
         var bubbleSize = anime({
             targets: elements.bubble,
-            width: ['0rem' , dimensions.loading.w],
+            width: ['0rem', dimensions.loading.w],
             duration: 800,
-            easing: 'easeOutElastic'
-        });
+            easing: 'easeOutElastic',
+            // loop:true,
+            complete: function () {
+                
+                anime({
+                    targets: elements.bubble,
+                    scale: 1 ,
+                    loop: false,
+                    width: [dimensions.loading.w, dimensions.bubble.w],
+                    height: [dimensions.loading.h, dimensions.bubble.h],
+                    begin: function () {
+                        console.log("begin");
+                        if (msgInd <= messages.length) elements.bubble.classList.remove('cornered');
+                    }
 
+                })
+                bubbleSize.pause();
+            }
+        });
+        
         var loadingBubblePulse = anime({
             targets: elements.bubble,
-            scale: [1.05, .95],
+            scale: [1, .95],
             duration: 1100,
             loop: true,
             direction: 'alternate',
@@ -140,20 +152,49 @@ window.onload = function(){
             duration: 300,
             loop: true,
             direction: 'alternate',
-            delay: function(el,i) {return (i*100) + 50 }
+            delay: function (el, i) { return (i * 100) + 50 },
+            complete: function () {
+                dotsPulse.pause();
+                anime({
+                    targets: elements.loading.querySelectorAll("b"),
+                    opacity: 0,
+                    scale: 0,
+                    loop:false,
+                    update: function(a) {
+                        if (a.progress>65 && elements.bubble.classList.contains('is-loading')) {
+                            elements.bubble.classList.remove('is-loading');
+                            
+                            anime({
+                                targets: elements.message,
+                                opacity: [0,1],
+                                duration: 500,
+                                easing: 'easeOutElastic'
+                                // begin: function () {
+                                //     bubbleSize.complete();
+                                // }
+                            });
+                        }
+
+                    }
+                })
+
+            }
 
         });
 
+        setTimeout(function () {
+            loadingBubblePulse.pause();
+            dotsPulse.complete();
+        }, loadingDuration - 50);
 
     }
 
-    function sendMessages()
-    {
+    function sendMessages() {
         var message = messages[msgInd];
-        if(!message) return;
+        if (!message) return;
         sendMessage(message);
         msgInd++;
-        sendMessages();
+        setTimeout(sendMessages, (message.replace(/<(?:.|\n)*?>/gm, '').length * typingSpeed) + anime.random(900, 1200));
     }
 
     sendMessages();
