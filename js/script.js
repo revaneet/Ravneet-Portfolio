@@ -8,9 +8,11 @@ window.onload = function(){
     {
         var d = new Date();
         var hours = d.getHours();
+        console.log(hours);
         if(hours >=5 && hours<19) return 'Have a nice day';
         else if(hours>=19 && hours<22) return 'Have a nice evening';
-        else if(hours>=22 && hours<5) return 'Have a good night';
+        else if(hours>=22 || hours<5) return 'Have a good night';
+        else return 'Oops';
     }
 
     var messages =[
@@ -27,21 +29,26 @@ window.onload = function(){
     {
         var bubbleEle = document.createElement('div');
         var messageEle = document.createElement('span');
-        
+        var loadingEle = document.createElement('span');
 
         bubbleEle.classList.add('bubble');
+        bubbleEle.classList.add('is-loading');
         bubbleEle.classList.add('cornered');
         bubbleEle.classList.add(position === 'right' ? 'right' : 'left');
 
         messageEle.classList.add('message');
+        loadingEle.classList.add('loading');
 
         messageEle.innerHTML = message;
+        loadingEle.innerHTML = loadingText;
         
+        bubbleEle.appendChild(loadingEle);
         bubbleEle.appendChild(messageEle);
         
         return{
+            //loading: loadingEle,
             bubble: bubbleEle,
-            message: messageEle,
+            message: messageEle
         }
 
     }
@@ -85,7 +92,22 @@ window.onload = function(){
         elements.message.style.height = dimensions.message.h;
         elements.bubble.style.opacity = 1;
 
+        
+        var bubbleOffset = elements.bubble.offsetTop + elements.bubble.offsetHeight;
+        if(bubbleOffset > messagesEle.offsetHeight)
+        {
+            console.log(bubbleOffset)
+            console.log(messagesEle.offsetHeight)
+            var scrollMsgs = anime({
+                targets: messagesEle,
+                scrollTop: bubbleOffset,
+                duration: 750
+            });
+        }
     }
+    // function setTimeout(() => {
+        
+    // }, timeout);
     function sendMessages()
     {
         var message = messages[msgInd];

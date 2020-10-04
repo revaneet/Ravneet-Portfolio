@@ -1,4 +1,5 @@
 :root {font-size: 1.125rem;}
+/* @media(min-width: 300px){:root {font-size: 1rem;}} */
 @media(min-width: 600px){:root {font-size: 1.5rem;}}
 @media(min-width: 900px){:root {font-size: 1.70rem;}}
 @media(min-width: 1200px){:root {font-size: 2rem;}}
@@ -18,12 +19,13 @@ body{
 }
 .messages{
     overflow: auto;
-    width: 100vw;
+    max-width: 100vw;
     max-height: 100vh;
     padding: 1rem .9rem;
 }
 .bubble{
-    overflow: hidden;
+    /* overflow-x: hidden; */
+    max-width: 100%;
     display: inline-block;
     margin: 0 0 .125rem 0;
     padding: .5rem .85rem;
@@ -32,6 +34,10 @@ body{
     transform-origin: 0 100%;
     vertical-align: middle;
     transition: border-radius .25s ease-out .075s;
+}
+.message{
+    max-width: 100%;
+
 }
 .bubble.left.cornered {
     border-bottom-left-radius: 0;
