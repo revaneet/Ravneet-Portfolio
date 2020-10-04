@@ -1,7 +1,7 @@
 window.onload = function(){
 
     var messagesEle = document.querySelector('.messages');
-    var loadingText = '<b>.</b><b>.</b><b>.</b>';
+    var loadingText = '<b>•</b><b>•</b><b>•</b>';
     var msgInd = 0;
 
     function getCurrentTime()
@@ -96,7 +96,6 @@ window.onload = function(){
         elements.message.style.width = dimensions.message.w;
         elements.message.style.height = dimensions.message.h;
         elements.bubble.style.opacity = 1;
-
         
         var bubbleOffset = elements.bubble.offsetTop + elements.bubble.offsetHeight;
         if(bubbleOffset > messagesEle.offsetHeight)
@@ -125,12 +124,29 @@ window.onload = function(){
             easing: 'easeInOutQuad'
         });
 
+        var startOfDots = anime({
+            targets: elements.loading,
+            translateX: ['-2rem', '0rem'],
+            scale: [0.5, 1],
+            duration: 400,
+            delay: 25,
+            easing: 'easeOutElastic',
+        });
+
+        var dotsPulse = anime({
+            targets: elements.loading.querySelectorAll("b"),
+            scale: [1, 1.25],
+            opacity: [0.5, 1],
+            duration: 300,
+            loop: true,
+            direction: 'alternate',
+            delay: function(el,i) {return (i*100) + 50 }
+
+        });
 
 
     }
-    // function setTimeout(() => {
-        
-    // }, timeout);
+
     function sendMessages()
     {
         var message = messages[msgInd];

@@ -12,6 +12,7 @@
 body{
     display: flex;
     flex-direction: column;
+    /* align-items: center; */
     min-width: 100vw;
     min-height: 100vh;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -24,7 +25,7 @@ body{
     padding: 1rem .9rem;
 }
 .bubble{
-    /* overflow-x: hidden; */
+    overflow: hidden;
     max-width: 100%;
     display: inline-block;
     margin: 0 0 .125rem 0;
@@ -35,9 +36,9 @@ body{
     vertical-align: middle;
     transition: border-radius .25s ease-out .075s;
 }
+
 .message{
     max-width: 100%;
-
 }
 .bubble.left.cornered {
     border-bottom-left-radius: 0;
@@ -47,7 +48,6 @@ background: rgba(206,206,206,0.50);
 }
 .bubble span {
     display: block;
-    color: black;
 }
 .bubble span.message {
     opacity: 0;
@@ -55,4 +55,15 @@ background: rgba(206,206,206,0.50);
 .bubble a {
     color: #0076FF;
 }
+.bubble .loading{
+    /* position: absolute; */
+    /* width: 2.25rem; */
+    font-size: 2rem;
+    line-height: 1.25rem;
+}
+.bubble .loading b {
+    /* display: inline-block; */
+    color: rgba(0,0,0,.5);
+}
+
 
