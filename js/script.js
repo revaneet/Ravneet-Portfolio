@@ -34,6 +34,7 @@ window.onload = function(){
         bubbleEle.classList.add('bubble');
         bubbleEle.classList.add('is-loading');
         bubbleEle.classList.add('cornered');
+
         bubbleEle.classList.add(position === 'right' ? 'right' : 'left');
 
         messageEle.classList.add('message');
@@ -44,9 +45,11 @@ window.onload = function(){
         
         bubbleEle.appendChild(loadingEle);
         bubbleEle.appendChild(messageEle);
+
+        bubbleEle.style.opacity = 0 ; 
         
         return{
-            //loading: loadingEle,
+            loading: loadingEle,
             bubble: bubbleEle,
             message: messageEle
         }
@@ -86,8 +89,10 @@ window.onload = function(){
         messagesEle.appendChild(elements.bubble);
         messagesEle.appendChild(document.createElement('br'));
         var dimensions = getDimensions(elements);
-        elements.bubble.style.width = dimensions.bubble.w;
-        elements.bubble.style.height = dimensions.bubble.h;
+
+        // elements.bubble.style.width = dimensions.bubble.w;
+        elements.bubble.style.width = '0rem';
+        elements.bubble.style.height = dimensions.loading.h;
         elements.message.style.width = dimensions.message.w;
         elements.message.style.height = dimensions.message.h;
         elements.bubble.style.opacity = 1;
@@ -104,6 +109,24 @@ window.onload = function(){
                 duration: 750
             });
         }
+        var bubbleSize = anime({
+            targets: elements.bubble,
+            width: ['0rem' , dimensions.loading.w],
+            duration: 800,
+            easing: 'easeOutElastic'
+        });
+
+        var loadingBubblePulse = anime({
+            targets: elements.bubble,
+            scale: [1.05, .95],
+            duration: 1100,
+            loop: true,
+            direction: 'alternate',
+            easing: 'easeInOutQuad'
+        });
+
+
+
     }
     // function setTimeout(() => {
         
