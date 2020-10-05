@@ -106,24 +106,24 @@ window.onload = function () {
         var bubbleSize = anime({
             targets: elements.bubble,
             width: ['0rem', dimensions.loading.w],
-            duration: 800,
+            duration: 300,
             easing: 'easeOutElastic',
             // loop:true,
             complete: function () {
-                
+                bubbleSize.pause();
                 anime({
                     targets: elements.bubble,
                     scale: 1 ,
                     loop: false,
                     width: [dimensions.loading.w, dimensions.bubble.w],
                     height: [dimensions.loading.h, dimensions.bubble.h],
+                    delay: loadingDuration - 400,
                     begin: function () {
                         console.log("begin");
                         if (msgInd <= messages.length) elements.bubble.classList.remove('cornered');
                     }
 
                 })
-                bubbleSize.pause();
             }
         });
         
@@ -167,7 +167,7 @@ window.onload = function () {
                             anime({
                                 targets: elements.message,
                                 opacity: [0,1],
-                                duration: 500,
+                                duration: 200,
                                 easing: 'easeOutElastic'
                                 // begin: function () {
                                 //     bubbleSize.complete();
