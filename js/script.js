@@ -106,7 +106,7 @@ window.onload = function () {
         var bubbleSize = anime({
             targets: elements.bubble,
             width: ['0rem', dimensions.loading.w],
-            duration: 300,
+            duration: 200,
             easing: 'easeOutElastic',
             // loop:true,
             complete: function () {
@@ -118,9 +118,13 @@ window.onload = function () {
                     width: [dimensions.loading.w, dimensions.bubble.w],
                     height: [dimensions.loading.h, dimensions.bubble.h],
                     delay: loadingDuration - 400,
-                    begin: function () {
-                        console.log("begin");
+                    update: function (a) {
+                        if(a.progress > 50)
+                        {
+                            console.log("begin");
                         if (msgInd <= messages.length) elements.bubble.classList.remove('cornered');
+                        }
+                        
                     }
 
                 })
@@ -161,7 +165,7 @@ window.onload = function () {
                     scale: 0,
                     loop:false,
                     update: function(a) {
-                        if (a.progress>65 && elements.bubble.classList.contains('is-loading')) {
+                        if (a.progress>40 && elements.bubble.classList.contains('is-loading')) {
                             elements.bubble.classList.remove('is-loading');
                             
                             anime({
@@ -169,9 +173,6 @@ window.onload = function () {
                                 opacity: [0,1],
                                 duration: 200,
                                 easing: 'easeOutElastic'
-                                // begin: function () {
-                                //     bubbleSize.complete();
-                                // }
                             });
                         }
 
