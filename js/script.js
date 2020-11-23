@@ -18,7 +18,7 @@ window.onload = function () {
     var messages = [
         'Hi there',
         'I\'m Ravneet',
-        'I recently completed my Btech in Computer Science',
+        'I recently completed my Btech degree in Computer Science',
         'I\'m currently accepting full time jobs.<br> You can contact me at <a href="mailto:ravneetkaur91997@gmail.com">ravneetkaur91997@gmail.com</a> ',
         '<a href="https://github.com/revaneet">github.com/revaneet</a><br><a href="https://www.linkedin.com/in/revaneetkaur/">linkedin.com/in/revaneetkaur</a><br><a href="https://twitter.com/reva_neet">twitter.com/reva_neet</a>',
         getCurrentTime(),
@@ -116,7 +116,8 @@ window.onload = function () {
                     scale: 1 ,
                     loop: false,
                     width: [dimensions.loading.w, dimensions.bubble.w],
-                    height: [dimensions.loading.h, dimensions.bubble.h],
+                    height: [dimensions.loading.h , dimensions.bubble.h],
+                    // minHeight: [dimensions.loading.h, dimensions.bubble.h],
                     delay: loadingDuration - 400,
                     update: function (a) {
                         if(a.progress > 50)
